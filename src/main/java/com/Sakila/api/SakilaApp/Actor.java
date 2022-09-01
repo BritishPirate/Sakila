@@ -5,6 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "actor")
 public class Actor {
+    //.
     //Attributes
     @Id
     @Column(name = "actor_id") //This can be used to refer to specific column without adhering to the same name
