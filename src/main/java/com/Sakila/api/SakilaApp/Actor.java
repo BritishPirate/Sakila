@@ -9,7 +9,7 @@ public class Actor {
     //Attributes
     @Id
     @Column(name = "actor_id") //This can be used to refer to specific column without adhering to the same name
-    @GeneratedValue(strategy = GenerationType.TABLE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     int actor_id;
     String first_name;
     String last_name;

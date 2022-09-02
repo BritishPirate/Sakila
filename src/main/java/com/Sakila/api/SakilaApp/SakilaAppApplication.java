@@ -24,8 +24,6 @@ public class SakilaAppApplication {
 		this.actorRepository = actorRepository;
 	}
 
-
-
 	@GetMapping("/AllActors")
 	@ResponseBody
 	public Iterable<Actor> getAllActors(){
@@ -36,5 +34,33 @@ public class SakilaAppApplication {
 	@ResponseBody
 	public Optional<Actor> getActor(@PathVariable Integer id){
 		return actorRepository.findById(id);
+	}
+
+	@PutMapping("/AddActor/{id}")
+	@ResponseBody
+	public String addActor(@PathVariable Integer id){
+		Actor actor = new Actor(id, "", "");
+		actorRepository.save(actor);
+		return ("This is " + actor.actor_id);
+	}
+
+	@DeleteMapping("/DelActor/{id}")
+	@ResponseBody
+	public String deleteActor(@PathVariable Integer id){
+		try {
+
+			actorRepository.deleteById(id);
+
+			return ("Bye bye " + id);
+		}
+		catch (Error e){
+			return e.getMessage();
+		}
+	}
+
+	@PutMapping("/UpdateActors/{id}")
+	@ResponseBody
+	public String updateActor(@PathVariable Integer id){
+		return "";
 	}
 }
