@@ -5,16 +5,16 @@ import javax.persistence.*;
 @Entity
 @Table(name = "actor")
 public class Actor {
-    //.
-    //Attributes
+    //region Attributes
     @Id
     @Column(name = "actor_id") //This can be used to refer to specific column without adhering to the same name
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int actor_id;
     String first_name;
     String last_name;
+    //endregion
 
-    //Constructor
+    //region Constructor
     public Actor(int actor_id, String first_name, String last_name){
         this.actor_id = actor_id;
         this.first_name = first_name;
@@ -23,8 +23,9 @@ public class Actor {
     public Actor(){
 
     }
+    //endregion
 
-    //Methods
+    //region Methods
 
     //region getters and setters
     public int getActor_id() {
@@ -50,5 +51,6 @@ public class Actor {
     public void setLast_name(String last_name) {
         this.last_name = last_name;
     }
+    //endregion
     //endregion
 }
