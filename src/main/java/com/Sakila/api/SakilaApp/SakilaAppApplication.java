@@ -2,12 +2,16 @@ package com.Sakila.api.SakilaApp;
 
 import com.Sakila.api.SakilaApp.Repositories.ActorRepository;
 import com.Sakila.api.SakilaApp.Repositories.CategoryRepository;
+import com.Sakila.api.SakilaApp.Repositories.FilmCategoryRepository;
+import com.Sakila.api.SakilaApp.Repositories.FilmRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
 import java.util.Optional;
+import java.util.Random;
 
 @SpringBootApplication
 @RestController
@@ -23,6 +27,10 @@ public class SakilaAppApplication {
 	private ActorRepository actorRepository;
 	@Autowired
 	private CategoryRepository categoryRepository;
+	@Autowired
+	private FilmRepository filmRepository;
+	@Autowired
+	 private FilmCategoryRepository filmCategoryRepository;
 
 	public SakilaAppApplication(ActorRepository actorRepository, CategoryRepository categoryRepository){
 		this.actorRepository = actorRepository;
@@ -76,5 +84,35 @@ public class SakilaAppApplication {
 	@ResponseBody
 	public Iterable<Category> getAllCategories(){
 		return categoryRepository.findAll();
+	}
+
+	@GetMapping("/GetFilmCategories/{id}")
+	@ResponseBody
+	public Iterable<Category> getFilmCategories(@PathVariable Integer id){
+		return categoryRepository.getFilmCategories(id);
+	}
+
+	@PutMapping("/AddPercentageToExisting")
+	@ResponseBody
+	public String addPercentageToExisting(){
+		Random rnd = new Random();
+		for(Integer i = 1; i <=  1000; i++){
+			FilmCategory fc = filmCategoryRepository.findById(i).get();
+			fc.percentage = rnd.nextInt(101);
+			filmCategoryRepository.save(fc);
+		}
+		return "done";
+	}
+
+	@GetMapping("/GetFilmCategory/{id}")
+	@ResponseBody
+	public Object getFilmCategory(@PathVariable Integer id){
+		return filmCategoryRepository.getCategoryByFilmId(id).get();
+	}
+
+	@GetMapping("/GetAllFilmCategory")
+	@ResponseBody
+	public Iterable<FilmCategory> getFilmCategory(){
+		return filmCategoryRepository.findAll();
 	}
 }

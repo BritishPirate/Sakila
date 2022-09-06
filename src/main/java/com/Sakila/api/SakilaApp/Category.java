@@ -1,6 +1,8 @@
 package com.Sakila.api.SakilaApp;
 
 import javax.persistence.*;
+import java.sql.Date;
+
 
 @Entity
 @Table(name = "category")
@@ -12,6 +14,10 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int category_id;
     String name;
+    Date last_update;
+
+    @ManyToMany
+    private Iterable<Film> films;
     //endregion
 
     //region Constructors
@@ -19,9 +25,10 @@ public class Category {
 
     }
 
-    public Category(int category_id, String name){
+    public Category(int category_id, String name, Date last_update){
         this.category_id = category_id;
         this.name = name;
+        this.last_update = last_update;
     }
     //endregion
 
@@ -41,6 +48,14 @@ public class Category {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Date getLast_update() {
+        return last_update;
+    }
+
+    public void setLast_update(Date last_update) {
+        this.last_update = last_update;
     }
 
     //endregion

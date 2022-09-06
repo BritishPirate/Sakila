@@ -1,5 +1,11 @@
-com\Sakila\api\SakilaApp\ActorRepository.class
-com\Sakila\api\SakilaApp\Category.class
-com\Sakila\api\SakilaApp\CategoryRepository.class
-com\Sakila\api\SakilaApp\Actor.class
+com\Sakila\api\SakilaApp\Repositories\ActorRepository.class
+com\Sakila\api\SakilaApp\Film.class
+com\Sakila\api\SakilaApp\Repositories\CategoryRepository.class
 com\Sakila\api\SakilaApp\SakilaAppApplication.class
+com\Sakila\api\SakilaApp\Repositories\FilmCategoryRepository.class
+com\Sakila\api\SakilaApp\Language.class
+com\Sakila\api\SakilaApp\Repositories\FilmRepository.class
+com\Sakila\api\SakilaApp\Repositories\LanguageRepository.class
+com\Sakila\api\SakilaApp\Category.class
+com\Sakila\api\SakilaApp\FilmCategory.class
+com\Sakila\api\SakilaApp\Actor.class

@@ -26,7 +26,6 @@ public class Actor {
     //endregion
 
     //region Methods
-
     //region getters and setters
     public int getActor_id() {
         return actor_id;

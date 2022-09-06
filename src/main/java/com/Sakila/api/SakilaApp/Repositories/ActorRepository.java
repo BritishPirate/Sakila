@@ -1,8 +1,8 @@
 package com.Sakila.api.SakilaApp.Repositories;
 
 import com.Sakila.api.SakilaApp.Actor;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ActorRepository extends CrudRepository<Actor, Integer> {
+public interface ActorRepository extends JpaRepository<Actor, Integer> {
 
 }
