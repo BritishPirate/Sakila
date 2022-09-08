@@ -2,11 +2,15 @@ package com.Sakila.api.SakilaApp;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.Set;
 
 
 @Entity
 @Table(name = "category")
 public class Category {
+
+    @ManyToMany(mappedBy = "filmCategory")
+    Set<Film> categoryFilm;
 
     //region Attributes
     @Id
@@ -15,9 +19,6 @@ public class Category {
     int category_id;
     String name;
     Date last_update;
-
-    @ManyToMany
-    private Iterable<Film> films;
     //endregion
 
     //region Constructors
@@ -57,6 +58,8 @@ public class Category {
     public void setLast_update(Date last_update) {
         this.last_update = last_update;
     }
+
+
 
     //endregion
 

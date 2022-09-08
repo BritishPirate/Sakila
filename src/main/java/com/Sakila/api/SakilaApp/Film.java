@@ -1,10 +1,23 @@
 package com.Sakila.api.SakilaApp;
 
+
+
+import com.Sakila.api.SakilaApp.Repositories.CategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "film")
 public class Film {
+    @ManyToMany
+    @JoinTable(
+            name = "film_category",
+            joinColumns = @JoinColumn(name = "film_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    Set<Category> filmCategory;
     //region Attributes
     @Id
     @Column(name = "film_id") //This can be used to refer to specific column without adhering to the same name
@@ -13,23 +26,23 @@ public class Film {
     String title;
     String description;
     int release_year;
-    int language_id;
-    int original_language_id;
-    int rental_duration;
+    Integer language_id;
+    //Integer original_language_id;
+    Integer rental_duration;
     float rental_rate;
-    int length;
+    Integer length;
     float replacement_cost;
     //ENUM rating
     //SET special_features
     //endregion
 
     //region constructors
-    public Film(String title, String description, int release_year, int language_id, int original_language_id, int rental_duration, float rental_rate, int length, float replacement_cost){
+    public Film(String title, String description, Integer release_year, Integer language_id, Integer rental_duration, float rental_rate, Integer length, float replacement_cost){
         this.title = title;
         this.description = description;
         this.release_year = release_year;
         this.language_id = language_id;
-        this.original_language_id = original_language_id;
+        //this.original_language_id = original_language_id;
         this.rental_duration = rental_duration;
         this.rental_rate = rental_rate;
         this.length = length;
@@ -84,6 +97,7 @@ public class Film {
         this.language_id = language_id;
     }
 
+/*
     public int getOriginal_language_id() {
         return original_language_id;
     }
@@ -91,7 +105,7 @@ public class Film {
     public void setOriginal_language_id(int original_language_id) {
         this.original_language_id = original_language_id;
     }
-
+ */
     public int getRental_duration() {
         return rental_duration;
     }
@@ -126,4 +140,5 @@ public class Film {
 
     //endregion
     //endregion
+
 }

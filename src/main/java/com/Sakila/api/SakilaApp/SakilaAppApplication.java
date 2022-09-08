@@ -2,14 +2,16 @@ package com.Sakila.api.SakilaApp;
 
 import com.Sakila.api.SakilaApp.Repositories.ActorRepository;
 import com.Sakila.api.SakilaApp.Repositories.CategoryRepository;
-import com.Sakila.api.SakilaApp.Repositories.FilmCategoryRepository;
 import com.Sakila.api.SakilaApp.Repositories.FilmRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
+import org.json.*;
 
-import java.util.Objects;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -29,8 +31,6 @@ public class SakilaAppApplication {
 	private CategoryRepository categoryRepository;
 	@Autowired
 	private FilmRepository filmRepository;
-	@Autowired
-	 private FilmCategoryRepository filmCategoryRepository;
 
 	public SakilaAppApplication(ActorRepository actorRepository, CategoryRepository categoryRepository){
 		this.actorRepository = actorRepository;
@@ -92,27 +92,50 @@ public class SakilaAppApplication {
 		return categoryRepository.getFilmCategories(id);
 	}
 
-	@PutMapping("/AddPercentageToExisting")
+	@GetMapping("/GetFilmByTitle/{id}")
 	@ResponseBody
-	public String addPercentageToExisting(){
-		Random rnd = new Random();
-		for(Integer i = 1; i <=  1000; i++){
-			FilmCategory fc = filmCategoryRepository.findById(i).get();
-			fc.percentage = rnd.nextInt(101);
-			filmCategoryRepository.save(fc);
+	public String findFilmByTitle(@PathVariable String id){
+		Iterable<Film> filmList = filmRepository.findFilmByTitle(id);
+		ArrayList<JSONObject>  searchResults = new ArrayList<JSONObject>();
+		for(Film film : filmList){
+			searchResults.add(new FilmSearchResult(film, getFilmCategories(film.film_id)).toJson());
 		}
-		return "done";
+		JSONArray ret = new JSONArray(searchResults);
+		return ret.toString();
 	}
 
-	@GetMapping("/GetFilmCategory/{id}")
+
+	@GetMapping("/GetFilmCategoryJson/{id}")
 	@ResponseBody
-	public Object getFilmCategory(@PathVariable Integer id){
-		return filmCategoryRepository.getCategoryByFilmId(id).get();
+	public JSONObject getFilmCategoryJson(@PathVariable Integer id){
+		FilmSearchResult filmSearchResult = new FilmSearchResult(filmRepository.findById(id).get(), categoryRepository.getFilmCategories(id));
+		return filmSearchResult.toJson();
 	}
 
-	@GetMapping("/GetAllFilmCategory")
+	@GetMapping("/GetFilmSearchResult/{id}")
 	@ResponseBody
-	public Iterable<FilmCategory> getFilmCategory(){
-		return filmCategoryRepository.findAll();
+	public FilmSearchResult getFilmSearchResult(@PathVariable Integer id){
+		return new FilmSearchResult(filmRepository.findById(id).get(), categoryRepository.getFilmCategories(id));
+	}
+
+	@GetMapping("/GetCategorySlim/{id}")
+	@ResponseBody
+	public CategorySkim getCategorySkim(@PathVariable Integer id){
+		return new CategorySkim(categoryRepository.findById(id).get());
+	}
+
+	@GetMapping("/GetFilmCategoriesSlim/{id}")
+	@ResponseBody
+	public CategorySkim[] getCategoriesSkim(@PathVariable Integer id){
+		CategorySkim[] ret = CategorySkim.categoriesToSkim(categoryRepository.getFilmCategories(id));
+		return ret;
+	}
+
+	@GetMapping("/GetJson")
+	@ResponseBody
+	public String getJson(){
+		JSONObject json = new JSONObject("Apple", "Banana");
+		json.put("Apple", "Banana");
+		return json.toString();
 	}
 }

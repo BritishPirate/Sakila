@@ -15,5 +15,4 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
                     "WHERE film.film_id = :id ;",
             nativeQuery = true)
     Iterable<Category> getFilmCategories(@Param("id") Integer id);
-    //List<Category> findByFilm_FilmId(Integer id);
 }
